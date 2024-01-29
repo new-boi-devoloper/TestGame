@@ -61,7 +61,7 @@ public class Game : MonoBehaviour
     public TMP_Text tx1, tx2, tx3, tx4;
 
     public int changeCost = 50;
-    public int cuurentButton;
+    public int currentButton = 1;
 
     // Start is called before the first frame update
     public void Start()
@@ -78,6 +78,7 @@ public class Game : MonoBehaviour
         amount1Profit = 1;
         amount2 = 0;
         amount2Profit = 5;
+        allUpgradePrize = 500;
 
         //RESET SAVE SYSTEM
         //PlayerPrefs.DeleteAll();
@@ -95,7 +96,7 @@ public class Game : MonoBehaviour
         amount2Profit = PlayerPrefs.GetInt("amount2Profit", 0);
         upgradePrize = PlayerPrefs.GetInt("upgradePrize", 50);
 
-        allUpgradePrize = 500;// POSSIBLE LATER TO ADD TO SAVE & LOAD SYSTEM
+        allUpgradePrize = PlayerPrefs.GetInt("allUpgradePrize", 500);
 
         //LEVEL LOAD
         bestScore = PlayerPrefs.GetInt("bestScore", 0);
@@ -110,30 +111,34 @@ public class Game : MonoBehaviour
         currentScore += scoreIncreasedPerSecond;
 
         //SHOP
-        shop1text.text = "Ìåëêèé êëèê 1: " + shop1prize + " $";
-        shop2text.text = "Ñðåäíåñòàò êëèê 2: " + shop2prize + " $";
+        shop1text.text = "ÐœÐµÐ»ÐºÐ¸Ð¹ ÐºÐ»Ð¸Ðº 1: " + shop1prize + " $";
+        shop2text.text = "Ð¡Ñ€ÐµÐ´Ð½ÐµÑÑ‚Ð°Ñ‚ ÐºÐ»Ð¸Ðº 2: " + shop2prize + " $";
 
         //AMOUNT OF BOUGHT PASSIVES
-        amount1Text.text = "Ìåëêèé êëèê 1: " + amount1 + " Ìåëêèé áîíóñ $: " + amount1Profit + "/s";
-        amount2Text.text = "Ñðåäíèé êëèê 2: " + amount2 + " Ñðåäíèé áîíóñ $: " + amount2Profit + "/s";
+        amount1Text.text = "ÐœÐµÐ»ÐºÐ¸Ð¹ ÐºÐ»Ð¸Ðº 1: " + amount1 + " ÐœÐµÐ»ÐºÐ¸Ð¹ Ð±Ð¾Ð½ÑƒÑ $: " + amount1Profit + "/s";
+        amount2Text.text = "Ð¡Ñ€ÐµÐ´Ð½Ð¸Ð¹ ÐºÐ»Ð¸Ðº 2: " + amount2 + " Ð¡Ñ€ÐµÐ´Ð½Ð¸Ð¹ Ð±Ð¾Ð½ÑƒÑ $: " + amount2Profit + "/s";
 
         //UPGRADE
-        upgradeText.text = "Cost: " + upgradePrize + " $";
+        upgradeText.text = "Ð£Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ ÑÐ¸Ð»Ñƒ ÐºÐ»Ð¸ÐºÐ°: " + upgradePrize + " $";
 
         //SAVE
         PlayerPrefs.SetInt("currentScore", (int)currentScore);
         PlayerPrefs.SetInt("hitPower", (int)hitPower);
         PlayerPrefs.SetInt("x", (int)x);
 
-        PlayerPrefs.SetInt("shop1prize", (int)shop1prize);
-        PlayerPrefs.SetInt("shop2prize", (int)shop2prize);
-        PlayerPrefs.SetInt("amount1", (int)amount1);
+        PlayerPrefs.SetInt("shop1prize", shop1prize);
+        PlayerPrefs.SetInt("shop2prize", shop2prize);
+        PlayerPrefs.SetInt("amount1", amount1);
         PlayerPrefs.SetInt("amount1Profit", (int)amount1Profit);
-        PlayerPrefs.SetInt("amount2", (int)amount2);
+        PlayerPrefs.SetInt("amount2", amount2);
         PlayerPrefs.SetInt("amount2Profit", (int)amount2Profit);
-        PlayerPrefs.SetInt("upgradePrize", (int)upgradePrize);
+        PlayerPrefs.SetInt("upgradePrize", upgradePrize);
 
-        allUpgradeText.text = "Óâåëè÷èòü âåñü ïàññèâ: " + allUpgradePrize + "$";
+        PlayerPrefs.SetInt("allUpgradePrize", allUpgradePrize);
+
+        //ALL UPGRADE BUTTON
+
+        allUpgradeText.text = "Ð£Ð´Ð²Ð¾Ð¸Ñ‚ÑŒ Ð¿Ð°ÑÑÐ¸Ð²: " + allUpgradePrize + "$";
 
         //LEVEL SAVE
         PlayerPrefs.SetInt("bestScore", bestScore);
@@ -154,22 +159,48 @@ public class Game : MonoBehaviour
         image2.color = AchievementShope == true ? new Color(0f, 1f, 0f, 1f) : new Color(1f, 1f, 1f, 1f);
 
         //LEVEL
-        if(exp >= expToNextLevel)
+        if (exp >= expToNextLevel)
         {
             level++;
             exp = 0;
             expToNextLevel *= 2;
         }
 
-        levelText.text = level + "óðîâåíü";
+        levelText.text = level + " ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ";
 
         //HIEGHEST SCORE
-        if(currentScore > bestScore)
+        if (currentScore > bestScore)
         {
             bestScore = (int)currentScore;
         }
 
-        bestScoreText.text = bestScore + " Ëó÷øèé ñ÷¸ò";
+        bestScoreText.text = bestScore + " Ð›ÑƒÑ‡ÑˆÐ¸Ð¹ ÑÑ‡Ñ‘Ñ‚";
+
+        //BUTTONS
+        tx1.text = "ÐšÑƒÐ¿Ð¸Ñ‚ÑŒ Ð·Ð°: " + changeCost;
+        tx2.text = "ÐšÑƒÐ¿Ð¸Ñ‚ÑŒ Ð·Ð°: " + changeCost * 2;
+        tx3.text = "ÐšÑƒÐ¿Ð¸Ñ‚ÑŒ Ð·Ð°: " + changeCost * 3;
+        tx4.text = "ÐšÑƒÐ¿Ð¸Ñ‚ÑŒ Ð·Ð°: " + changeCost * 4;
+
+        switch (currentButton)
+        {
+            case 1:
+                clickerButton.sprite = sp1;
+                break;
+            case 2:
+                clickerButton.sprite = sp2;
+                break;
+            case 3:
+                clickerButton.sprite = sp3;
+                break;
+            case 4:
+                clickerButton.sprite = sp4;
+                break;
+            default:
+                // Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ, ÐµÑÐ»Ð¸ currentButton Ð½Ðµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð½Ð¸ Ð¾Ð´Ð½Ð¾Ð¼Ñƒ Ð¸Ð· ÑÐ»ÑƒÑ‡Ð°ÐµÐ²
+                break;
+        }
+
     }
 
 
@@ -228,4 +259,37 @@ public class Game : MonoBehaviour
             amount2Profit *= 2;
         }
     }
+    public void Button1()
+    {
+        if (currentScore >= changeCost)
+        {
+            currentScore -= changeCost;
+            currentButton = 1;
+        }
+    }
+    public void Button2()
+    {
+        if (currentScore >= changeCost)
+        {
+            currentScore -= changeCost * 2;
+            currentButton = 2;
+        }
+    }
+    public void Button3()
+    {
+        if (currentScore >= changeCost)
+        {
+            currentScore -= changeCost * 3;
+            currentButton = 3;
+        }
+    }
+    public void Button4()
+    {
+        if (currentScore >= changeCost)
+        {
+            currentScore -= changeCost * 4;
+            currentButton = 4;
+        }
+    }
+
 }
