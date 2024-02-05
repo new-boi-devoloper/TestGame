@@ -80,9 +80,6 @@ public class Game : MonoBehaviour
         amount2Profit = 5;
         allUpgradePrize = 500;
 
-        //RESET SAVE SYSTEM
-        PlayerPrefs.DeleteAll();
-
         //LOAD
         currentScore = PlayerPrefs.GetInt("currentScore", 0);
         hitPower = PlayerPrefs.GetInt("hitPower", 1);
@@ -113,7 +110,7 @@ public class Game : MonoBehaviour
         //SHOP
         shop1Text.text = "Мелкий клик 1: " + Math.Floor(shop1Prize) + " $";
         shop2Text.text = "Среднестат клик 2: " + Math.Floor(shop2Prize) + " $";
-
+        
         //AMOUNT OF BOUGHT PASSIVES
         amount1Text.text = "Мелкий клик 1: " + amount1 + " Мелкий бонус $: " + amount1Profit + "/s";
         amount2Text.text = "Средний клик 2: " + amount2 + " Средний бонус $: " + amount2Profit + "/s";
@@ -137,7 +134,6 @@ public class Game : MonoBehaviour
         PlayerPrefs.SetFloat("allUpgradePrize", allUpgradePrize);
 
         //ALL UPGRADE BUTTON
-
         allUpgradeText.text = "Удвоить пассив: " + Math.Floor(allUpgradePrize) + "$";
 
         //LEVEL SAVE
