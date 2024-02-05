@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using System;
 
 public class Game : MonoBehaviour
 {
@@ -14,11 +14,11 @@ public class Game : MonoBehaviour
     public float x;
 
     //SHOP
-    public int shop1prize;
-    public TMP_Text shop1text;
+    [FormerlySerializedAs("shop1prize")] public float shop1Prize;
+    [FormerlySerializedAs("shop1text")] public TMP_Text shop1Text;
 
-    public int shop2prize;
-    public TMP_Text shop2text;
+    [FormerlySerializedAs("shop2prize")] public float shop2Prize;
+    [FormerlySerializedAs("shop2text")] public TMP_Text shop2Text;
 
     //AMOUNT
     public TMP_Text amount1Text;
@@ -30,16 +30,16 @@ public class Game : MonoBehaviour
     public float amount2Profit;
 
     //UPGRADE
-    public int upgradePrize;
+    public float upgradePrize;
     public TMP_Text upgradeText;
 
-    //NEW
-    public int allUpgradePrize;
+    //ALL UPGRADE 
+    public float allUpgradePrize;
     public TMP_Text allUpgradeText;
 
     //ACHIEVEMENT
     public bool achievementScore;
-    public bool AchievementShope;
+    [FormerlySerializedAs("AchievementShope")] public bool achievementShope;
 
     public Image image1;
     public Image image2;
@@ -71,9 +71,9 @@ public class Game : MonoBehaviour
         hitPower = 1;
         scoreIncreasedPerSecond = 1;
         x = 0f;
-        //DEFAULT VRIABLES THAT WE NEED TO PRELOAD 
-        shop1prize = 25;
-        shop2prize = 125;
+        //DEFAULT VARIABLES THAT WE NEED TO PRELOAD 
+        shop1Prize = 25;
+        shop2Prize = 125;
         amount1 = 0;
         amount1Profit = 1;
         amount2 = 0;
@@ -81,22 +81,22 @@ public class Game : MonoBehaviour
         allUpgradePrize = 500;
 
         //RESET SAVE SYSTEM
-        //PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();
 
         //LOAD
         currentScore = PlayerPrefs.GetInt("currentScore", 0);
         hitPower = PlayerPrefs.GetInt("hitPower", 1);
         x = PlayerPrefs.GetInt("x", 0);
 
-        shop1prize = PlayerPrefs.GetInt("shop1prize", 25);
-        shop2prize = PlayerPrefs.GetInt("shop2prize", 125);
+        shop1Prize = PlayerPrefs.GetFloat("shop1Prize", 25);
+        shop2Prize = PlayerPrefs.GetFloat("shop2Prize", 125);
         amount1 = PlayerPrefs.GetInt("amount1", 0);
         amount1Profit = PlayerPrefs.GetInt("amount1Profit", 0);
         amount2 = PlayerPrefs.GetInt("amount2", 0);
         amount2Profit = PlayerPrefs.GetInt("amount2Profit", 0);
-        upgradePrize = PlayerPrefs.GetInt("upgradePrize", 50);
+        upgradePrize = PlayerPrefs.GetFloat("upgradePrize", 50);
 
-        allUpgradePrize = PlayerPrefs.GetInt("allUpgradePrize", 500);
+        allUpgradePrize = PlayerPrefs.GetFloat("allUpgradePrize", 500);
 
         //LEVEL LOAD
         bestScore = PlayerPrefs.GetInt("bestScore", 0);
@@ -111,34 +111,34 @@ public class Game : MonoBehaviour
         currentScore += scoreIncreasedPerSecond;
 
         //SHOP
-        shop1text.text = "Мелкий клик 1: " + shop1prize + " $";
-        shop2text.text = "Среднестат клик 2: " + shop2prize + " $";
+        shop1Text.text = "Мелкий клик 1: " + Math.Floor(shop1Prize) + " $";
+        shop2Text.text = "Среднестат клик 2: " + Math.Floor(shop2Prize) + " $";
 
         //AMOUNT OF BOUGHT PASSIVES
         amount1Text.text = "Мелкий клик 1: " + amount1 + " Мелкий бонус $: " + amount1Profit + "/s";
         amount2Text.text = "Средний клик 2: " + amount2 + " Средний бонус $: " + amount2Profit + "/s";
 
         //UPGRADE
-        upgradeText.text = "Удвоить силу клика: " + upgradePrize + " $";
+        upgradeText.text = "Удвоить силу клика: " + Math.Floor(upgradePrize) + " $";
 
         //SAVE
         PlayerPrefs.SetInt("currentScore", (int)currentScore);
         PlayerPrefs.SetInt("hitPower", (int)hitPower);
         PlayerPrefs.SetInt("x", (int)x);
 
-        PlayerPrefs.SetInt("shop1prize", shop1prize);
-        PlayerPrefs.SetInt("shop2prize", shop2prize);
+        PlayerPrefs.SetFloat("shop1Prize", shop1Prize);
+        PlayerPrefs.SetFloat("shop2Prize", shop2Prize);
         PlayerPrefs.SetInt("amount1", amount1);
         PlayerPrefs.SetInt("amount1Profit", (int)amount1Profit);
         PlayerPrefs.SetInt("amount2", amount2);
         PlayerPrefs.SetInt("amount2Profit", (int)amount2Profit);
-        PlayerPrefs.SetInt("upgradePrize", upgradePrize);
+        PlayerPrefs.SetFloat("upgradePrize", upgradePrize);
 
-        PlayerPrefs.SetInt("allUpgradePrize", allUpgradePrize);
+        PlayerPrefs.SetFloat("allUpgradePrize", allUpgradePrize);
 
         //ALL UPGRADE BUTTON
 
-        allUpgradeText.text = "Удвоить пассив: " + allUpgradePrize + "$";
+        allUpgradeText.text = "Удвоить пассив: " + Math.Floor(allUpgradePrize) + "$";
 
         //LEVEL SAVE
         PlayerPrefs.SetInt("bestScore", bestScore);
@@ -151,12 +151,12 @@ public class Game : MonoBehaviour
 
         if (amount2 >= 2)
         {
-            AchievementShope = true;
+            achievementShope = true;
         }
 
-        image1.color = achievementScore == true ? new Color(0f, 1f, 0f, 1f) : new Color(1f, 1f, 1f, 1f);
+        image1.color = achievementScore ? new Color(0f, 1f, 0f, 1f) : new Color(1f, 1f, 1f, 1f);
 
-        image2.color = AchievementShope == true ? new Color(0f, 1f, 0f, 1f) : new Color(1f, 1f, 1f, 1f);
+        image2.color = achievementShope ? new Color(0f, 1f, 0f, 1f) : new Color(1f, 1f, 1f, 1f);
 
         //LEVEL
         if (exp >= expToNextLevel)
@@ -182,25 +182,14 @@ public class Game : MonoBehaviour
         tx3.text = "Купить за: " + changeCost * 3;
         tx4.text = "Купить за: " + changeCost * 4;
 
-        switch (currentButton)
+        clickerButton.sprite = currentButton switch
         {
-            case 1:
-                clickerButton.sprite = sp1;
-                break;
-            case 2:
-                clickerButton.sprite = sp2;
-                break;
-            case 3:
-                clickerButton.sprite = sp3;
-                break;
-            case 4:
-                clickerButton.sprite = sp4;
-                break;
-            default:
-                // Действие по умолчанию, если currentButton не соответствует ни одному из случаев
-                break;
-        }
-
+            1 => sp1,
+            2 => sp2,
+            3 => sp3,
+            4 => sp4,
+            _ => clickerButton.sprite
+        };
     }
 
 
@@ -215,25 +204,25 @@ public class Game : MonoBehaviour
     //SHOP
     public void Shop1()
     {
-        if (currentScore >= shop1prize)
+        if (currentScore >= shop1Prize)
         {
-            currentScore -= shop1prize;
+            currentScore -= shop1Prize;
             amount1++;
             amount1Profit++;
             x++;
-            shop1prize += 25;
+            shop1Prize *= 2.2f;
         }
     }
 
     public void Shop2()
     {
-        if (currentScore >= shop2prize)
+        if (currentScore >= shop2Prize)
         {
-            currentScore -= shop2prize;
+            currentScore -= shop2Prize;
             amount2++;
             amount2Profit += 5;
             x += 5;
-            shop2prize += 50;
+            shop2Prize *= 2.2f;
         }
     }
 
@@ -244,7 +233,7 @@ public class Game : MonoBehaviour
         {
             currentScore -= upgradePrize;
             hitPower *= 2;
-            upgradePrize *= 2;
+            upgradePrize *= 2.2f;
         }
     }
     //NEW
@@ -254,7 +243,7 @@ public class Game : MonoBehaviour
         {
             currentScore -= allUpgradePrize;
             x *= 2;
-            allUpgradePrize *= 3;
+            allUpgradePrize *= 3.3f;
             amount1Profit *= 2;
             amount2Profit *= 2;
         }
