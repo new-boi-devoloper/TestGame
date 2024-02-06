@@ -720,6 +720,10 @@ PrefabInstance:
       value: PlayerArmature (1)
       objectReference: {fileID: 0}
     - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
+      propertyPath: JumpHeight
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
       propertyPath: GroundLayers.m_Bits
       value: 1
       objectReference: {fileID: 0}
@@ -4640,6 +4644,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1207608065}
   m_CullTransparentMesh: 1
+--- !u!1 &1308575999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1308576001}
+  - component: {fileID: 1308576000}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1308576000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308575999}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9847d5e7fa544ef1a2fce6fd22a72f5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameInPut: {fileID: 2003429691}
+--- !u!4 &1308576001
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308575999}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.2376587, y: 0.8756937, z: 1.8752899}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1314876600
 GameObject:
   m_ObjectHideFlags: 0
@@ -6358,9 +6407,9 @@ MonoBehaviour:
   hitPower: 0
   scoreIncreasedPerSecond: 0
   x: 0
-  shop1Prize: 0
+  shop1Prize: 25
   shop1Text: {fileID: 112390552}
-  shop2Prize: 0
+  shop2Prize: 125
   shop2Text: {fileID: 1022510904}
   amount1Text: {fileID: 110253201}
   amount1: 0
@@ -6391,7 +6440,7 @@ MonoBehaviour:
   tx2: {fileID: 159798936}
   tx3: {fileID: 1784152266}
   tx4: {fileID: 967833913}
-  changeCost: 50
+  changeCost: 200
   currentButton: 1
 --- !u!1 &2025517441
 GameObject:
@@ -6821,3 +6870,4 @@ SceneRoots:
   - {fileID: 129003362}
   - {fileID: 2096292117}
   - {fileID: 511528766}
+  - {fileID: 1308576001}
